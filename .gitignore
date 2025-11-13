@@ -12,6 +12,8 @@ Gemfile.lock
 node_modules
 package-lock.json
 
+*.docx
+
 # Ignore the vendor file at root level and bundle for alternative installation
 /vendor/
 .bundle/

@@ -3,7 +3,7 @@ title: "ManiTaskGen: A Comprehensive Task Generator for Benchmarking and Improvi
 collection: publications
 category: manuscripts
 permalink: /publication/2025-11-11-manitaskgen
-excerpt: 'This paper is about the number 1. The number 2 is left for future work.'
+excerpt: 'This paper is about ManiTaskGen, a universal system that generates a comprehensive set of feasible mobile manipulation tasks given arbitrary scenes. These tasks facilitate both benchmarking and the improvement of embodied decision-making agents. '
 date: 2025-11-11
 venue: 'Journal 1'
 slidesurl: 'https://academicpages.github.io/files/manitaskgen.pdf'
