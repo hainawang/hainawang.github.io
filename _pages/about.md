@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "Academic Pages is a ready-to-fork GitHub Pages template for academic personal websites"
+title: "About Me"
 author_profile: true
 redirect_from: 
   - /about/
@@ -8,7 +8,7 @@ redirect_from:
 ---
 
 
-**Personal Website Introduction**
+
 
 I am **Haina Wang**, currently pursuing my M.S. degree in Computer Science at the **University of California, San Diego (UC San Diego)** (expected graduation). Previously, I received my B.S. degree in Computer Science and Technology from **Zhejiang University** (ZJU), where I was advised by **Prof. Can Wang** and also collaborated with **Prof. Gaoang Wang** during a Student Research Training Program (SRTP).
 

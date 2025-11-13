@@ -22,21 +22,20 @@ Intern experience
 Research Roles
 ------
 * Nov 2024 - Present: Research Intern (M.S. Student)
-  * Lab: Su Lab, University of California, San Diego (UCSD)
-  * Duties included: 
+  * **Lab: Su Lab, University of California, San Diego (UCSD)**
+  * **Duties included:**
     * Lead implementation and evaluation for the ManiTaskGen project, focusing on Embodied AI and VLM.
     * Developed a novel hybrid task generator that synthesizes comprehensive mobile manipulation tasks using receptacle-aware 3D scene graphs and VLM voting.
     * Responsible for agent performance optimization, including the design and application of inference-time techniques (RFT optimization) to improve VLM agent reliability in complex 3D environments. (See Publications for full results.)
-  * Supervisor: Prof. Su Hao (Primary Advisor), and Liu Dai (Day-to-day Mentor)
+  * **Supervisor:** Prof. Su Hao (Primary Advisor), and Liu Dai (Day-to-day Mentor)
 
 * Apr 2023 - Jun 2024: Research Assistant (B.S. Student)
-  * Lab: ZLST Lab, Zhejiang University
-  * Duties included: 
+  * **Lab: ZLST Lab, Zhejiang University (ZJU)**
+  * **Duties included:**
     * Conducted theoretical and applied research on graph recommendation algorithms (MF, LightGCN), specifically addressing the long-tail effect and exposure bias.
     * Developed and implemented specialized deviation correction loss functions to enhance algorithmic fairness and quality.
     * Responsible for full lifecycle model establishment, hyperparameter tuning, and performance validation using a multi-dimensional model structure.
-  * Supervisor: Prof. Can Wang (Primary Advisor), and Jiawei Chen (Day-to-day Mentor)
-
+  * **Supervisor:** Prof. Can Wang (Primary Advisor), and Jiawei Chen (Day-to-day Mentor)
 
 Industry & Engineering Roles
 ------
@@ -58,36 +57,11 @@ Industry & Engineering Roles
   
 Skills
 ======
+* **Programming:** C/C++ (6 yrs), Python (4 yrs), algorithms & data structures
+* **AI/ML:** PyTorch, Vision-Language Models (VLM), Embodied AI, deep learning frameworks
+* **Systems:** GPU optimization, parallel computing, MLOps, performance analysis
+* **Graphics:** OpenGL, B-spline curves, computer graphics, digital image processing
 
-* Core Programming & Foundations
-
-  * C/C++ (6 yrs): Demonstrated expertise through 5x ACM/ICPC Gold Medals, interning in Bytedance and a series projects.
-
-  * Python (4 yrs): Primary language for Machine Learning, data analysis, and quantitative strategy implementation.
-
-  * Algorithms & Data Structures: Strong foundational knowledge for efficient code design and problem-solving.
-
-* Artificial Intelligence & Research
-
-  * Deep Learning Frameworks: PyTorch (Expert), Familiarity with advanced modeling techniques.
-
-  * Specialization (VLM/Embodied AI)
-
-  * Vision-Language Models (VLM): Agent development and optimization for complex 3D environments (ManiTaskGen).
-
-  * Embodied AI: Task generation and agent performance enhancement in simulated environments.
-
-* Systems & Engineering Optimization
-
-  * Low-Level Performance
-  
-  * Parallel Computing: GPU optimization (e.g., achieving 4000+ GFLOPS on T4 GPU) and memory/latency analysis.
-
-  * MLOps/Platform: Analyzing model execution traces across heterogeneous GPU architectures (Bytedance Co.).
-
-* Graphics & Tools
-
-  * Computer Graphics: OpenGL framework implementation (MeshLab, Blender), B-spline curves, and digital image processing (DIP).
 
 Publications
 ======
@@ -95,18 +69,19 @@ Publications
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
   
-Talks
+<!-- Talks
 ======
   <ul>{% for post in site.talks reversed %}
     {% include archive-single-talk-cv.html  %}
   {% endfor %}</ul>
-  
+   -->
+   
 Teaching
 ======
   <ul>{% for post in site.teaching reversed %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
   
-Service and leadership
+<!-- Service and leadership
 ======
-* Currently signed in to 43 different slack teams
+* Currently signed in to 43 different slack teams -->
