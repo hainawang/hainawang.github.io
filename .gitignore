@@ -17,6 +17,6 @@ package-lock.json
 # Ignore the vendor file at root level and bundle for alternative installation
 /vendor/
 .bundle/
-
+deprecated/
 # Ignore folders related to IDEs
 .vscode/
