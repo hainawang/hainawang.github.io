@@ -1,65 +1,78 @@
 ---
-title: "Animation Inbetweening: Machine Learning and Spline Curves for 2D Animation Interpolation"
-excerpt: "B‑spline–based method for 2D animation inbetweening that preserves outline clarity and handles large motion spans; combines contour vectorization, structural matching, clustering, and quadratic trajectory prediction.<br/><img src='/images/srtp_gif.gif'>"
-slidesurl: '../files/interpolation_slids.pdf'
-paperurl: '../files/anime_inbetweening.pdf'
+title: "🎨 SIGGRAPH 2016 Reproduction: Rough Sketch Simplification"  
+excerpt: "Complete reproduction and critical analysis of Simo-Serra et al.'s rough sketch simplification paper; includes Lua/Torch to Python/PyTorch migration, loss function validation, and dataset construction experiments.<br/><img src='/images/reproduction_teaser.jpg'>"
+slidesurl: '../files/roughsketch_slides.pdf'
+paperurl: '../files/siggraph2016_reproduction.pdf'
 collection: portfolio
 ---
 
 
----
 
-# 🤖 Animation Inbetweening1: Machine Learning and Spline Curves for 2D Animation Interpolation
+
 
 ## **Project Summary**
 
-* **Goal:** To solve the issues of **outline blur** and **large motion span** inherent in traditional video interpolation algorithms when applied to **low-frame-rate 2D animation**.
-* **Core Innovation:** We propose a method using **B-spline curves** to fit and match the outlines of two input frames, ensuring the clarity of the intermediate frame's outline during interpolation. The algorithm supports the generation of any number of mid-frames.
-* **Key Techniques:** B-spline fitting, contour matching, biclustering, network flow, Gale–Shapley algorithm, and regression for movement prediction.
-* **Authors:** Haina Wang, Houxian Su, Zhizhi Wang.
+* **Original Paper:** Rough sketch simplification (Simo-Serra et al., SIGGRAPH 2016)
+* **Goal:** Fully reproduce the key results of the paper, including rewriting the original Lua/Torch code base into modern Python/PyTorch.
+* **Core Contribution:** Re-implemented the Fully Convolutional Network (FCN) architecture, constructed comparable datasets, and designed targeted comparison experiments to validate the necessity of the paper's key technical components.
+* **Technologies:** Python, PyTorch, Computer Vision (CV), Deep Learning Architecture Analysis.
+* **Authors:** Haina Wang, Yixuan Pu
 * **Institution:** Zhejiang University.
 
 ---
 
-## **Motivation and Unique Challenges**
+## **Technical Re-implementation & Challenges**
 
-Traditional video interpolation is designed for high-frame-rate videos \( \geq 24\text{fps} \). Animation inbetweening, however, requires adding intermediate frames to keyframes (often \( \leq 12\text{fps} \)), presenting several difficulties:
+The primary task was translating the original codebase from Lua/Torch (a framework popular in 2016) to a modern Python/PyTorch environment.
 
-1.  **Large Motion Spans:** The movement of objects between adjacent frames changes greatly due to the low frame rate.
-2.  **Outline Preservation:** Most algorithms cause blurring of the generated intermediate frame outlines, which is unacceptable for animation production.
-3.  **Data Scarcity:** Obtaining large, annotated datasets for 2D animation is challenging due to trade secrets, although the ATD-12K dataset was utilized.
+### **Code Conversion**
+Successfully translated the paper's network structure and logic, simplifying components that are now standard (e.g., Batch Normalization and the ADADELTA optimizer) into modern PyTorch layers.
 
-## Technical Approach: The Spline-Based Framework
+### **Loss Function Vectorization** 
+The original paper utilized a highly localized loss map (M) based on a normalized histogram H(I,u,v). Implementing this loss calculation efficiently in Python required a clever solution to avoid slow loops: we vectorized the calculation by generating multiple shifted image maps, calculating contributions, and aggregating them using `numpy.select()`. This required strong attention to efficient low-level code structure.
 
-Our algorithm utilizes a multi-stage, machine-learning-assisted process to maintain outline integrity throughout interpolation.
-
-### **1. Pre-processing and Vectorization**
-
-* **Binarization:** We use local thresholding, stylization, and global thresholding in OpenCV to binarize adjacent input frames.
-* **Contour Extraction & Fitting:** We use `cv2.findcontours()` to extract outlines and then apply B-spline curves to fit the contours, limiting the number of control points to unify the vectorized length for easier matching.
-
-### **2. Motion Analysis and Matching**
-
-* **Movement Detection:** We apply criteria based on five learned coefficients ($k_{1}$ to $k_{5}$) to determine which long curves are truly moving between frames.
-* **Clustering:** We use biclustering (DBSCAN and agglomerative clustering) for long moving curves and K-means for short curves to aid matching.
-* **Structural Matching:**
-    * **Long Curves:** Matched using a structural method that scores curve pairs based on shape metrics (e.g., cross product vectors) and control point polygon shape. We apply network flow for piecewise matching.
-    * **Short Curves:** Treated as separate points and matched using the Gale–Shapley algorithm.
-
-### **3. Movement Prediction and Frame Generation**
-
-* **Trajectory Prediction:** For matched control point pairs, we use trained quadratic motion equations (in time $t$) to predict the position of the control points in the intermediate frame $t_{1/2}$.
-* **Frame Restoration:** The intermediate frame is generated by restoring the B-spline curves from the predicted control points (moved curves) and superimposing them onto the unmoved curves from the adjacent frames.
-
-## **Technical Challenges and Reflections**
-
-This project highlighted core challenges in combining traditional computer vision and vector graphics with machine learning:
-
-* **Contour Robustness:** Relying on `cv2.findcontours()` dramatically affected the program's robustness, as a few pixels of noise could lead to poor matching results. The issue of contours intersecting or separating was also observed.
-* **B-spline Limitations:** We encountered problems with B-spline fitting, including the risk of self-intersection if the fitting epoch was not carefully set. Additionally, the inherent variability in contour length made simply using the same number of control points for all curves an unwise idea.
-* **Learning Process:** The project involved multiple dead ends, such as failed attempts with motion-detection models and treating the image as simple point clouds for transformers. Progress was only achieved when realizing the simplification of contours into B-splines was the correct path.
+### **Result Verification**
+Successfully reran and compared our Python-generated output against all major figures shown in the original paper, achieving acceptable performance.
 
 ---
 
+## **Critical Analysis & Validation Experiments**
 
-> **Citation:** Haina Wang, Houxian Su, Zhizhi Wang. . "Animation Inbetweening Based on Machine Learning and Spline Curves." *Preprint (2023)*.
+Beyond simple reproduction, we designed new experiments to critically test the paper's claimed novelty and best practices.
+
+### **1. Validating the Custom Loss Function**
+
+The paper introduced a weighted loss map M to emphasize certain areas during training. We ran comparative training experiments:
+
+* **Experiment:** Training with the custom loss map (w/M) vs. training with standard Mean Squared Error (MSE) only (w/oM).
+* **Finding:** The comparison confirmed that the custom loss map significantly accelerated convergence and improved the clarity of the lines in the initial training phases (Iterations 50-200), validating the author's decision to use it.
+
+### **2. Analyzing the Inverse Dataset Construction**
+
+The authors created their dataset by adding noise to clean sketches ("Inverse Dataset Generation"). We tested the sensitivity of this approach by constructing multiple datasets:
+
+* **Manual vs. Automated Noise:** We compared training on the authors' preferred "limited manual noise" (slur, tone) dataset against datasets generated from common cartoon images (ATD-12K).
+  * **Finding:** Our test confirmed that the model trained on general cartoon images struggled, highlighting that the manual noise and clean context provided by the Inverse Dataset were crucial for obtaining a high-quality result.
+
+* **Patches Importance:** We tested training with and without randomly extracted fixed-size patches.
+  * **Finding:** The use of small, random patches dramatically accelerated the training process by effectively eliminating large blank spaces and improving feature density.
+
+---
+
+## **Technical Challenges and Reflections**
+
+This project highlighted core challenges in reproducing academic work across different programming paradigms:
+
+* **Framework Migration:** Converting from Lua/Torch to Python/PyTorch required understanding both the original implementation details and modern deep learning best practices.
+* **Performance Optimization:** Vectorizing the custom loss function calculation was crucial for training efficiency, demonstrating the importance of low-level optimization in deep learning pipelines.
+* **Experimental Design:** Designing controlled experiments to validate specific claims required careful isolation of variables and systematic comparison methodologies.
+
+---
+
+## **Conclusion**
+
+This project demonstrated my ability to engage with complex academic literature, re-engineer solutions across different programming paradigms (Lua to Python), and use scientific rigor to validate core research claims through comparative experimentation. While the ML architecture of the 2016 paper has since been surpassed by modern models (e.g., Vision Transformers), the pioneering approach to dataset construction remains highly influential in Computer Graphics and artistic AI today.
+
+---
+
+> **Citation:** Reproduction study of Simo-Serra et al. "Learning to Simplify: Fully Convolutional Networks for Rough Sketch Cleanup." *SIGGRAPH 2016*. Implementation and analysis by Haina Wang, Yixuan Pu (2023).

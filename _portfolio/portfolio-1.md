@@ -1,15 +1,13 @@
 ---
-title: "Animation Inbetweening: Machine Learning and Spline Curves for 2D Animation Interpolation"
+title: "🤖 Animation Inbetweening: Machine Learning and Spline Curves for 2D Animation Interpolation"
 excerpt: "B‑spline–based method for 2D animation inbetweening that preserves outline clarity and handles large motion spans; combines contour vectorization, structural matching, clustering, and quadratic trajectory prediction.<br/><img src='/images/srtp_gif.gif'>"
 slidesurl: '../files/interpolation_slids.pdf'
-paperurl: '../files/anime_inbetweening.pdf'
+paperurl: '../files/portfolios/anime_inbetweening.pdf'
 collection: portfolio
 ---
 
 
----
 
-# 🤖 Animation Inbetweening: Machine Learning and Spline Curves for 2D Animation Interpolation
 
 ## **Project Summary**
 

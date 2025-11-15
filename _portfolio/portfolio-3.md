@@ -1,65 +1,72 @@
 ---
-title: "Animation Inbetweening: Machine Learning and Spline Curves for 2D Animation Interpolation"
-excerpt: "B‑spline–based method for 2D animation inbetweening that preserves outline clarity and handles large motion spans; combines contour vectorization, structural matching, clustering, and quadratic trajectory prediction.<br/><img src='/images/srtp_gif.gif'>"
-slidesurl: '../files/interpolation_slids.pdf'
-paperurl: '../files/anime_inbetweening.pdf'
+title: " 📊 Autodebias GCN: Dual-Model Correction for Exposure Bias in Implicit Feedback"
+excerpt: "Undergraduate thesis proposing a dual-LightGCN model to decompose implicit feedback into Preference and Exposure matrices, substantially reducing estimation variance and improving performance on benchmark datasets (Yahoo!R3, Coat).<br/><img src='/images/srtp_gif.gif'>"
+paperurl: '../files/zjuthesis.pdf'
 collection: portfolio
 ---
 
 
----
 
-# 🤖 Animation Inbetweening2: Machine Learning and Spline Curves for 2D Animation Interpolation
 
-## **Project Summary**
+## Project Summary
 
-* **Goal:** To solve the issues of **outline blur** and **large motion span** inherent in traditional video interpolation algorithms when applied to **low-frame-rate 2D animation**.
-* **Core Innovation:** We propose a method using **B-spline curves** to fit and match the outlines of two input frames, ensuring the clarity of the intermediate frame's outline during interpolation. The algorithm supports the generation of any number of mid-frames.
-* **Key Techniques:** B-spline fitting, contour matching, biclustering, network flow, Gale–Shapley algorithm, and regression for movement prediction.
-* **Authors:** Haina Wang, Houxian Su, Zhizhi Wang.
-* **Institution:** Zhejiang University.
+* **Goal:**To address Exposure Bias in recommender systems—the issue where implicit user feedback is a joint product of Preference ($R$) and Exposure ($O$), leading to biased preference estimates.
 
----
+* **Core Innovation:** Designed and implemented a novel dual-Graph Convolutional Network (GCN) model, based on LightGCN, that jointly trains separate models for the Preference Matrix ($R$) and the Exposure Matrix ($O$) using Expectation-Maximization (EM) principles.
 
-## **Motivation and Unique Challenges**
+* **Key Contributions:** Theoretically demonstrated that the proposed method significantly reduces the variance of the preference estimation compared to state-of-the-art methods like Item Propensity Weighted (IPW) models.
 
-Traditional video interpolation is designed for high-frame-rate videos \( \geq 24\text{fps} \). Animation inbetweening, however, requires adding intermediate frames to keyframes (often \( \leq 12\text{fps} \)), presenting several difficulties:
+Validated model uniqueness by leveraging the hypothesized difference in properties (e.g., Eigenvalue distribution) between $R$ and $O$ via customized regularization terms.
 
-1.  **Large Motion Spans:** The movement of objects between adjacent frames changes greatly due to the low frame rate.
-2.  **Outline Preservation:** Most algorithms cause blurring of the generated intermediate frame outlines, which is unacceptable for animation production.
-3.  **Data Scarcity:** Obtaining large, annotated datasets for 2D animation is challenging due to trade secrets, although the ATD-12K dataset was utilized.
+Authors: Haina Wang (Undergraduate Thesis)
 
-## Technical Approach: The Spline-Based Framework
-
-Our algorithm utilizes a multi-stage, machine-learning-assisted process to maintain outline integrity throughout interpolation.
-
-### **1. Pre-processing and Vectorization**
-
-* **Binarization:** We use local thresholding, stylization, and global thresholding in OpenCV to binarize adjacent input frames.
-* **Contour Extraction & Fitting:** We use `cv2.findcontours()` to extract outlines and then apply B-spline curves to fit the contours, limiting the number of control points to unify the vectorized length for easier matching.
-
-### **2. Motion Analysis and Matching**
-
-* **Movement Detection:** We apply criteria based on five learned coefficients ($k_{1}$ to $k_{5}$) to determine which long curves are truly moving between frames.
-* **Clustering:** We use biclustering (DBSCAN and agglomerative clustering) for long moving curves and K-means for short curves to aid matching.
-* **Structural Matching:**
-    * **Long Curves:** Matched using a structural method that scores curve pairs based on shape metrics (e.g., cross product vectors) and control point polygon shape. We apply network flow for piecewise matching.
-    * **Short Curves:** Treated as separate points and matched using the Gale–Shapley algorithm.
-
-### **3. Movement Prediction and Frame Generation**
-
-* **Trajectory Prediction:** For matched control point pairs, we use trained quadratic motion equations (in time $t$) to predict the position of the control points in the intermediate frame $t_{1/2}$.
-* **Frame Restoration:** The intermediate frame is generated by restoring the B-spline curves from the predicted control points (moved curves) and superimposing them onto the unmoved curves from the adjacent frames.
-
-## **Technical Challenges and Reflections**
-
-This project highlighted core challenges in combining traditional computer vision and vector graphics with machine learning:
-
-* **Contour Robustness:** Relying on `cv2.findcontours()` dramatically affected the program's robustness, as a few pixels of noise could lead to poor matching results. The issue of contours intersecting or separating was also observed.
-* **B-spline Limitations:** We encountered problems with B-spline fitting, including the risk of self-intersection if the fitting epoch was not carefully set. Additionally, the inherent variability in contour length made simply using the same number of control points for all curves an unwise idea.
-* **Learning Process:** The project involved multiple dead ends, such as failed attempts with motion-detection models and treating the image as simple point clouds for transformers. Progress was only achieved when realizing the simplification of contours into B-splines was the correct path.
+Institution: Zhejiang University
 
 ---
 
+## **Problem & Model Motivation**
 
-> **Citation:** Haina Wang, Houxian Su, Zhizhi Wang. . "Animation Inbetweening Based on Machine Learning and Spline Curves." *Preprint (2023)*.
+Modern recommender systems rely on implicit feedback (clicks, views), which suffer from **exposure bias** because we cannot distinguish if a non-click means 'dislike but exposed' or 'like but unexposed'. Existing debiasing methods, such as Weighted Matrix Factorization (WMF) and Propensity-Based models (IPW), often lead to biased estimates or suffer from high variance.
+
+Our approach explicitly models the observation \(Y_{ui}\) as the product of two latent variables: \(Y_{ui} = R_{ui} \cdot O_{ui}\).
+
+---
+
+## **Technical Approach: Dual-LightGCN Architecture**
+
+### **1. Dual-Model Training**
+
+We utilize two parallel LightGCN models—a powerful and simplified GCN architecture—to learn the embeddings for \(R\) and \(O\).
+
+* **Preference Model (\(R\)):** Trained to predict the user's true interest \(\xi_{ui}=P(r_{ui}=1)\).
+* **Exposure Model (\(O\)):** Trained to predict the probability of exposure \(\theta_{ui}=P(o_{ui}=1)\).
+
+The combined output, \(P(Y_{ui}=1) = \text{sigmoid}(R) \cdot \text{sigmoid}(O)\), is used for the overall loss calculation against the training data. The Preference Model output is used for final testing.
+
+### **2. Variance Reduction (Theoretical Proof)**
+
+A crucial theoretical contribution of this work is proving that our method effectively bounds the variance of the preference estimation loss \(L_{\text{prefer}}\).
+
+* **IPW Issue:** The IPW estimator contains the inverse of the propensity score \(1 / P(O_{ui}=1)\), which can be very small, leading to unbounded variance in extreme cases.
+* **Our Solution:** We proved that the variance of our proposed loss function is upper-bounded, demonstrating a theoretical advantage in estimation stability.
+
+### **3. Hypothesis-Driven Regularization**
+
+To prevent the two parallel models (\(R\) and \(O\)) from becoming redundant, we enforced structural differences based on hypotheses about user behavior:
+
+* **Hypothesis:** The Exposure Matrix (\(O\)) has a more decentralized and polarized structure compared to the Preference Matrix (\(R\)), which exhibits stronger long-tail effects (fewer popular items dominate preference).
+* **Customization:** We introduced **Eigenvalue Regularization** into the loss function, specifically leveraging the difference between the top \(k\) eigenvalues and the subsequent eigenvalues to guide the \(R\) and \(O\) models toward their hypothesized structural properties.
+
+---
+
+## **Experimental Results & Discussion**
+
+* **Performance:** Comprehensive experiments on unbiased benchmark datasets (Yahoo!R3 and Coat) showed that the dual-model approach significantly outperformed single-model baselines (MF, ExpoMF) and IPW variants in terms of Recall@K and NDCG@K.
+
+* **Ablation Studies:** We performed extensive ablation tests on LightGCN layer count and eigenvalue coefficients, confirming that introducing the Exposure Model consistently boosts the performance of the Preference Model.
+
+* **Reflection:** While the Exposure Model itself proved challenging to train to its full theoretical potential, its inclusion served as a powerful regularizer, effectively separating the Preference signal from the Exposure noise. The analysis also revealed complex relationships between LightGCN layer counts and performance on different datasets (e.g., over-smoothing sensitivity), guiding future research directions.
+
+---
+
+> **Citation:** Haina Wang. "Autodebias GCN: Dual-Model Correction for Exposure Bias in Implicit Feedback." *Undergraduate Thesis, Zhejiang University (2024)*.

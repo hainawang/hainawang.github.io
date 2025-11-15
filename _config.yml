@@ -25,8 +25,8 @@ author:
   # Biographic information
   avatar           : "bio-photo.jpg"
   name             : "Haina Wang"
-  pronouns         : # example: "she/her"  
-  bio              : "Haina Wang is an M.S. student in Computer Science at UC San Diego, having earned her B.S. from Zhejiang University. His research focuses on Embodied AI and Vision-Language Models (VLM), aiming to translate cutting-edge AI theory into robust, reliable real-world systems. He is looking for a Ph.D. position in 2026."
+  pronouns         : "he/him"  
+  bio              : "Haina Wang is an M.S. student in Computer Science at UC San Diego, having earned his B.S. from Zhejiang University. His research focuses on Embodied AI and Vision-Language Models (VLM), aiming to translate cutting-edge AI theory into robust, reliable real-world systems. He is looking for a Ph.D. position in 2026."
   location         : "San Diego"
   employer         : "University of California, San Diego"
   uri              : # URL
