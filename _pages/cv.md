@@ -11,8 +11,8 @@ redirect_from:
 
 Education
 ======
-
-* M.S. in University of California, San Diego, 2024 - present
+* Ph.D. in University of Hong Kong, Hong Kong, 2026 - present
+* M.S. in University of California, San Diego, 2024 - 2026
 * B.S. in Zhejiang University, Hangzhou, 2020 - 2024
 
 Publications
@@ -41,7 +41,7 @@ Intern experience
 
 Research Roles
 ------
-* Nov 2024 - Present: Research Intern (M.S. Student)
+* Nov 2024 - Mar 2026: Research Intern (M.S. Student)
   * **Lab: Su Lab, University of California, San Diego (UCSD)**
   * **Duties included:**
     * Lead implementation and evaluation for the ManiTaskGen project, focusing on Embodied AI and VLM.
@@ -59,6 +59,10 @@ Research Roles
 
 Industry & Engineering Roles
 ------
+* Dec 2025 - Aug 2026: AI  Intern
+  * **Company: Luvbotics Co.** 
+  * **Duties Included:**  Designing and implementing **Luvworld**, a behavioral simulation system to synthesize multimodal interaction trajectories via foundation models for edge/cloud decision-making distillation; establishing an end-to-end motion generation and retargeting pipeline delivered to the motion control team; engineering automated speech synthesis algorithms with dynamic acoustic modulation; and developing the corporate website.
+
 * Feb 2024 - Jun 2024: Software Development Engineer, Machine Learning Platform, Hangzhou
   * **Company: Bytedance Co.**
   * **Duties included:** Conducted in-depth analysis of model execution traces across heterogeneous GPU architectures to quantify performance bottlenecks (memory, computation, IO). Provided data-driven deployment recommendations to improve resource allocation efficiency.
